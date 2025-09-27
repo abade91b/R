@@ -1,0 +1,668 @@
+/* استيراد خطوط جوجل */
+@import url("https://fonts.googleapis.com/css?family=Lato:900");
+@import url("https://fonts.googleapis.com/css?family=Coming+Soon");
+@import url("https://fonts.googleapis.com/css?family=Nunito:300");
+@import url("https://fonts.googleapis.com/css?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Rakkas&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Tajawal&display=swap");
+
+/* ===== الإعدادات العامة ===== */
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    color: white;
+}
+
+/* ===== خلفية النجوم ===== */
+#stars-background {
+    position: absolute;
+    top:0; left:0;
+    width:100%; height:100%;
+    pointer-events: none;
+    overflow:hidden;
+    z-index:0;
+}
+
+.star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+}
+
+/* ===== قسم الترحيب والمقدمة ===== */
+#welcome-section {
+    z-index: 2;
+    text-align: center;
+    padding: 2rem;
+    border-radius: 15px;
+    max-width: 80%;
+}
+
+#welcome-section p {
+    margin-bottom: 1.5rem;
+    font-size: 30px;
+    line-height: 1.6;
+}
+
+#app-title {
+    opacity: 0;
+    transition: opacity 5s ease;
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+   color: #ffffff;
+  text-shadow: 
+    0 0 5px rgba(255, 255, 255, 0.6),
+    0 0 10px rgba(200, 200, 200, 0.4);
+    font-family: "Tajawal";
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+#app-description {
+    font-size: 22px;
+    font-family: "Tajawal";
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: none;
+    text-align: center;
+    margin-top: 10px;
+}
+
+#begin-meditation-btn {
+    background: #4a5568;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    position: relative;   /* مهم عشان z-index يشتغل */
+    z-index: 9999;          /* يضمن أن الزر فوق كل العناصر الأخرى */
+    
+}
+
+#begin-meditation-btn:hover {
+    background: #ffffff;
+    color: #4a5568;
+}
+
+/* ===== قسم التأمل والتنفس ===== */
+#meditation-section {
+    display: none;
+    z-index: 2;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    height: 100%;
+        font-family: "Tajawal";
+
+}
+
+.meditation-container {
+    position: relative;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* الدائرة المرئية للتنفس */
+#breathing-visualizer {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: #ddd;
+    box-shadow: 
+        0 0 40px rgba(255, 255, 255, 0.9),
+        0 0 80px rgba(173, 216, 230, 0.6),
+        0 0 120px rgba(255, 223, 186, 0.3),
+        inset 0 0 20px rgba(255, 255, 255, 0.5);
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0.001);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+/* ===== العد التنازلي داخل الدائرة ===== */
+.countdown-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 48px;
+    font-weight: bold;
+    color: #1e3a5f;
+    text-shadow: 
+        0 0 10px rgba(255, 255, 255, 0.8),
+        0 0 20px rgba(173, 216, 230, 0.6);
+    opacity: 0;
+    transition: opacity 1.5s ease, transform 1.5s ease;
+    z-index: 20;
+    pointer-events: none;
+}
+
+.countdown-message.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+.countdown-message.hide {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+}
+
+/* ===== عبارات التأمل داخل الدائرة ===== */
+#breathing-instructions {
+    position: absolute;
+    top: -20%;          /* على حافة الأعلى من الأب */
+    left: 50%;        /* في منتصف العرض */
+    transform: translate(-50%, 0); /* تصحيح أفقي فقط */
+    font-size: 20px;
+  color: rgba(255, 255, 255, 0.7);
+  text-shadow: 
+    0 0 3px rgba(255, 255, 255, 0.3);
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+    z-index: 20;
+    pointer-events: none;
+    width: 200px;
+    line-height: 1.2;
+}
+
+
+#breathing-instructions.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+#breathing-instructions.hide {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+}
+
+#breathing-instructions.inhale {
+    transform: translate(-50%, -50%) scale(1.2);
+    transition: transform 3.2s ease-in-out;
+  color: rgba(255, 255, 255, 0.7);
+  text-shadow: 
+    0 0 3px rgba(255, 255, 255, 0.3);
+}
+
+#breathing-instructions.exhale {
+    transform: translate(-50%, -50%) scale(1);
+    transition: transform 4.3s ease-in-out;
+  color: rgba(255, 255, 255, 0.7);
+  text-shadow: 
+    0 0 3px rgba(255, 255, 255, 0.3);
+}
+
+/* ===== الرسائل التمهيدية فوق الدائرة ===== */
+/* ===== الرسائل التمهيدية فوق الدائرة ===== */
+.intro-message {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.7);
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
+
+    font-size: 21px;
+    font-family: Amiri;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+    width: auto;         /* بدّل من 150% إلى auto عشان النص ما يتمدد */
+    max-width: 100%;     /* يخليها ما تطلع برة الشاشة */
+    padding: 15px;
+    border-radius: 20px;
+    z-index: 3;
+    display: inline-block; /* يخليها تتصرف كعنصر نصي */
+    margin: 20px 0;
+    top: -20px; 
+    left: 50%;
+    transform: translateX(-50%); /* يثبتها بالوسط */
+    white-space: nowrap; /* يمنع الانقسام لسطر جديد */
+}
+
+/* تحديد مواقع الرسائل التمهيدية */
+#intro-msg-1, #intro-msg-2, #intro-msg-3, 
+#intro-msg-4, #intro-msg-5, #intro-msg-6 { 
+    top: -20px; 
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#intro-msg-3 {
+    font-weight: bold;
+}
+
+/* تأثيرات إظهار وإخفاء الرسائل */
+.intro-message.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    filter: blur(0px);
+}
+
+.intro-message.hide {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.95);
+    filter: blur(2px);
+}
+
+/* تأثير الظهور والاختفاء التدريجي */
+@keyframes fadeInOut {
+    0% { 
+        opacity: 0; 
+        transform: translateX(-50%) translateY(30px) scale(0.9); 
+    }
+    20% { 
+        opacity: 1; 
+        transform: translateX(-50%) translateY(0) scale(1); 
+    }
+    80% { 
+        opacity: 1; 
+        transform: translateX(-50%) translateY(0) scale(1); 
+    }
+    100% { 
+        opacity: 0; 
+        transform: translateX(-50%) translateY(-30px) scale(0.9); 
+    }
+}
+
+/* ===== رسائل إتمام التجربة ===== */
+#completion-messages {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150%;
+    max-width: 500px;
+    text-align: center;
+    z-index: 1;
+    display: block;
+        pointer-events: none;
+
+}
+
+.completion-message {
+    position: absolute;
+color: rgba(255, 255, 255, 0.7);
+text-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
+
+    font-family: "Tajawal";
+    font-size: 24px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+    width: 150%;
+    max-width: 500px;
+    padding: 15px;
+    border-radius: 20px;
+    z-index: 3;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+        pointer-events: none;
+
+}
+
+.completion-message.show {
+    opacity: 1;
+}
+
+/* ===== قسم الخاتمة والإنجاز ===== */
+#completion-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 1s ease;
+    z-index: 1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 90%;
+    max-width: 600px;
+        pointer-events: none;
+
+}
+
+#user-feedback-prompt {
+    font-size: 24px;
+     color: #cccccc;
+  text-shadow: none;
+    margin-bottom: 20px;
+    opacity: 0;
+    transform: translateY(20px);
+        font-family: "Tajawal";
+
+
+}
+
+#social-sharing-area {
+    opacity: 0;
+    transform: translateY(20px);
+    display: block;
+    margin-top: 15px;
+}
+
+#social-sharing-area p {
+color: rgba(255, 255, 255, 0.7);
+text-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
+
+  text-shadow: none;
+    font-size: 22px;
+    margin-bottom: 15px;
+          z-index: 10001;
+              font-family: "Tajawal";
+
+
+}
+
+/* ===== أزرار المشاركة الاجتماعية ===== */
+.social-buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px; 
+    margin: 10px 0;
+    padding: 0;
+    flex-direction: row; 
+    flex-wrap: wrap;
+      z-index: 10001;
+}
+
+.resp-sharing-button {
+    border: none;
+    background: transparent;
+    margin: 0;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.resp-sharing-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+.resp-sharing-button__link {
+    text-decoration: none;
+    display: inline-block;
+    margin: 0;
+}
+
+.resp-sharing-button__icon svg {
+    width: 32px;
+    height: 32px;
+    display: block;
+    margin: 0;
+    border-radius: 50%;
+}
+
+.resp-sharing-button__icon--solid,
+.resp-sharing-button__icon--solidcircle {
+    fill: #fff;
+    stroke: none;
+}
+
+/* ===== توقيع المطور ===== */
+.developer-signature {
+
+    font-family: "Nunito", sans-serif;
+color: rgba(255, 255, 255, 0.7);
+text-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
+
+  text-shadow: none;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 40px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1.5s ease, transform 1.5s ease;
+    z-index: 1;
+}
+
+.heart {
+    color: white !important;
+    display: inline-block;
+    animation: heartbeat 1.8s ease-in-out infinite;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.7), 0 0 10px rgba(255, 255, 255, 0.4);
+}
+
+@keyframes heartbeat {
+    0% { transform: scale(1); text-shadow: 0 0 5px rgba(255,255,255,0.5), 0 0 10px rgba(255,255,255,0.2);}
+    50% { transform: scale(1.15); text-shadow: 0 0 10px rgba(255,255,255,0.8),0 0 20px rgba(255,255,255,0.4);}
+    100% { transform: scale(1); text-shadow:0 0 30x rgba(255,255,255,0.5),0 0 40px rgba(255,255,255,0.2);}
+}
+
+/* ===== عناصر إضافية من الكود الأصلي ===== */
+
+#motivationalsection {
+    width: 100%;
+    text-align: center;
+    margin-top: 50px;
+    display: none;
+}
+
+#completiontext {
+    font-size: 24px;
+    color: red;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+}
+
+/* ===== استعلامات الوسائط للهواتف ===== 
+@media only screen and (max-device-width: 600px) {
+    .title { padding: 10px; font-size: 44px; width: inherit; }
+    .main-title__sub-title { font-size: 24px; }
+    .message { top: 32px; padding: 10px; font-size: 26px; }
+    .input-thought-wrapper { bottom: 40px; }
+    .input__thought { width: 80%; }
+    .btn-enterthought { top: 10px; }
+    .main-star { height: 240px; width: 240px; margin-left: -120px; margin-top: -120px; }
+    .email-subscribe { width: 90px !important; letter-spacing: 1px !important; }
+    .title-done { font-size: 26px; }
+    .subscribe-wrapper__text { font-size: 20px; }
+    .cta { font-size: 12px; }
+    .overlay-background { padding: 24px; }
+}
+
+*/
+
+/* ===== Responsive Design ===== */
+
+/* للأجهزة اللوحية (max-width: 900px) */
+@media (max-width: 900px) {
+    #welcome-section {
+        padding: 1.5rem;
+        max-width: 90%;
+    }
+
+    #app-title {
+        font-size: 28px;
+    }
+
+    #app-description {
+        font-size: 18px;
+    }
+
+    #begin-meditation-btn {
+        padding: 10px 25px;
+        font-size: 1rem;
+    }
+
+    .meditation-container {
+        width: 250px;
+    }
+
+    #breathing-visualizer {
+        width: 250px;
+        height: 250px;
+    }
+
+    .countdown-message {
+        font-size: 36px;
+    }
+
+    #breathing-instructions {
+        font-size: 18px;
+        width: 180px;
+    }
+
+    .intro-message, .completion-message {
+        font-size: 18px;
+        width: 150%;
+        max-width: 500px;
+    }
+
+    #completion-section {
+        width: 95%;
+        max-width: 500px;
+    }
+}
+
+/* للأجهزة الصغيرة / الهواتف (max-width: 600px) */
+@media (max-width: 600px) {
+    #welcome-section {
+        padding: 1rem;
+        max-width: 95%;
+    }
+
+    #app-title {
+        font-size: 24px;
+    }
+
+    #app-description {
+        font-size: 16px;
+    }
+
+    #begin-meditation-btn {
+        padding: 8px 20px;
+        font-size: 0.9rem;
+    }
+
+    .meditation-container {
+        width: 200px;
+    }
+
+    #breathing-visualizer {
+        width: 200px;
+        height: 200px;
+    }
+
+    .countdown-message {
+        font-size: 28px;
+    }
+
+    #breathing-instructions {
+        font-size: 16px;
+        width: 160px;
+    }
+
+    .intro-message, .completion-message {
+        font-size: 16px;
+        width: 120%;
+        max-width: 350px;
+    }
+
+    #completion-section {
+        width: 100%;
+        max-width: 400px;
+    }
+}
+
+/* للأجهزة فائقة الصغر (max-width: 400px) */
+@media (max-width: 400px) {
+    #app-title {
+        font-size: 20px;
+    }
+
+    #app-description {
+        font-size: 14px;
+    }
+
+    #begin-meditation-btn {
+        padding: 6px 15px;
+        font-size: 0.8rem;
+    }
+
+    .meditation-container {
+        width: 180px;
+    }
+
+    #breathing-visualizer {
+        width: 180px;
+        height: 180px;
+    }
+
+    .countdown-message {
+        font-size: 24px;
+    }
+
+    #breathing-instructions {
+        font-size: 14px;
+        width: 140px;
+    }
+
+    .intro-message, .completion-message {
+        font-size: 14px;
+        width: 140%;
+        max-width: 300px;
+    }
+
+    #completion-section {
+        width: 100%;
+        max-width: 350px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* أي عنصر يغطي الزرار ولا يحتاج تفاعل */
+#completion-section,
+.completion-message,
+#user-feedback-prompt,
+#social-sharing-area,
+.intro-message,
+#meditation-section,
+#breathing-visualizer,
+#breathing-instructions,
+#countdown-message {
+    pointer-events: none;
+}
+
+/* الأزرار فقط تسمح بالنقر */
+#begin-meditation-btn,
+.resp-sharing-button {
+    pointer-events: auto;
+    position: relative; /* مهم إذا تحتاج z-index */
+    z-index: 10001; /* أعلى من أي عنصر آخر */
+}
